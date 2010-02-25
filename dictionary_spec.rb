@@ -7,11 +7,28 @@ describe Dictionary do
     d.include?('fish').should be_true
   end
 
+  it "should not find word in empty dictionary" do
+    d = Dictionary.new
+    d.find('fi').should == []
+  end
+
   it "should find a word from a prefix" do
+    d = Dictionary.new
+    d.add('fish')
+    d.add('fiend')
+    d.add('great')
+    d.find('gr').should == ['great']
+  end
+
+  it "should find multiple matches from a prefix" do
     d = Dictionary.new
     d.add('fish')
     d.add('fiend')
     d.add('great')
     d.find('fi').sort.should == ['fish', 'fiend'].sort
   end
+
+
+
+
 end
