@@ -1,6 +1,23 @@
 require 'dictionary'
 
 describe Dictionary do
+  it "should be empty when created" do
+    d = Dictionary.new
+    d.words == []
+  end
+
+  it "should report its contents" do 
+    d = Dictionary.new
+    d.add("fish")
+    d.add("foul")
+    d.words.sort == ["fish", "foul"].sort
+  end
+
+  it "should not include a word in an empty dictionary" do
+    d = Dictionary.new
+    d.include?('fish').should be_false
+  end
+
   it "should be able to add words" do
     d = Dictionary.new
     d.add('fish')
