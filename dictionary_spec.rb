@@ -3,14 +3,14 @@ require 'dictionary'
 describe Dictionary do
   it "should be empty when created" do
     d = Dictionary.new
-    d.words == []
+    d.words.should == []
   end
 
   it "should report its contents" do 
     d = Dictionary.new
     d.add("fish")
     d.add("foul")
-    d.words.sort == ["fish", "foul"].sort
+    d.words.sort.should == ["fish", "foul"].sort
   end
 
   it "should not include a word in an empty dictionary" do
