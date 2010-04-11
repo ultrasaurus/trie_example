@@ -1,7 +1,13 @@
 require 'rubygems'
 require 'ruby-prof'
 require 'names'
-require 'array_dictionary'
+
+type = ARGV[0]
+type = "trie" if type.nil?
+file_name = "#{type}_dictionary"
+puts "Performance test for: #{file_name}.rb"
+
+require file_name
 
 d = Dictionary.new
 $names.each do |name| 
@@ -17,6 +23,6 @@ result = RubyProf.profile do
 end
 
 # Print a graph profile to text
-printer = RubyProf::GraphPrinter.new(result)
+printer = RubyProf::FlatPrinter.new(result)
 printer.print(STDOUT, 0)
 
