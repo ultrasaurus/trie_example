@@ -1,7 +1,13 @@
 require 'rubygems'
 require 'memprof'
 require 'names'
-require 'array_dictionary'
+
+type = ARGV[0]
+type = "trie" if type.nil?
+file_name = "#{type}_dictionary"
+puts "Memory test for: #{file_name}.rb"
+
+require file_name 
 
 puts "-------------- build dictionary"
 Memprof.start
@@ -14,9 +20,7 @@ Memprof.stats
 puts "-------------- find"
 # Profile the code
   ('a'..'z').each do |chr| 
-    puts "-------#{chr}"
     d.find(chr)
-    Memprof.stats
   end
 
 Memprof.stats
