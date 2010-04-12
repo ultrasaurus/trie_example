@@ -2,12 +2,12 @@ require 'rubygems'
 require 'ruby-prof'
 require 'names'
 
-type = ARGV[0]
-type = "trie" if type.nil?
-file_name = "#{type}_dictionary"
-puts "Performance test for: #{file_name}.rb"
-
-require file_name
+#type = ARGV[0]
+#type = "trie" if type.nil?
+#file_name = "#{type}_dictionary"
+#puts "Performance test for: #{file_name}.rb"
+#require file_name
+require "set_dictionary"
 
 d = Dictionary.new
 $names.each do |name| 

@@ -1,54 +1,55 @@
+require 'set'
+
 class Dictionary
   def initialize
-    @tree = {}
+    @words = Hash.new
   end
 
-  def add(word,subtree=@tree)
-    if word.size == 0
-      subtree[:terminal] = true
+  def words(subtree = @words, prefix="")
+    result = []
+    #puts "words #{subtree.inspect} #{result.inspect} #{prefix}"
+    return [] if @words.empty?
+    return [ prefix ] if subtree.empty? 
+    subtree.each do |key, value|
+      result += words(value, prefix + key)
+    end
+    #puts "result = #{result.inspect}"
+    result
+  end
+
+  def add(word, subtree=@words)
+    #puts "add #{word}"
+    return if word.empty?
+    first = word[0,1]
+    if subtree[first].nil?
+      subtree[first] = Hash.new
+    end
+    add(word[1..-1], subtree[first])
+  end
+
+  def include?(word, subtree = @words)
+    return true if word.empty? 
+    first = word[0,1]
+    if subtree[first].nil?
+      false
     else
-      first_char = word[0]
-      rest = word[1..-1]
-      subtree[first_char] ||= {}
-      add(rest, subtree[first_char])
+      include?(word[1..-1], subtree[first])
     end
   end
 
-  def include?(word)
-    subtree = walk(word)
-    if subtree and subtree[:terminal]
-      return true
+  def find(orig_prefix, subtree = @words, prefix=nil)
+    #puts "find #{orig_prefix}, #{prefix}, #{subtree.inspect}" 
+    prefix = orig_prefix if prefix.nil?
+    return [] if @words.empty?
+    return words if orig_prefix.empty?
+
+    first = prefix[0,1]
+    if prefix.empty?
+      return words(subtree, orig_prefix)
     else
-      return false
+      find(orig_prefix, subtree[first], prefix[1..-1])
     end
+
   end
-
-  def find(prefix)
-    subtree = walk(prefix)
-    return [] unless subtree
-    return words(subtree, prefix)
-  end
-
-  def words(subtree = @tree, prefix="", words=[] )
-    subtree.each do |key, next_subtree|
-      if key == :terminal
-        words << prefix
-      else
-        words(next_subtree, prefix + key.chr, words)
-      end
-    end
-    return words
-  end
-
-  private
-
-  def walk(word)
-    subtree = @tree
-    word.each_byte do |byte|
-      subtree = subtree[byte]
-      return false if subtree.nil?
-    end
-    return subtree
-  end
-
 end
+

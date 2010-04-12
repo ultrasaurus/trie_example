@@ -9,8 +9,25 @@ describe Dictionary do
   it "should report its contents" do 
     d = Dictionary.new
     d.add("fish")
+    puts d.words
     d.add("foul")
     d.words.sort.should == ["fish", "foul"].sort
+  end
+
+  it "should report only one of each entry" do 
+    d = Dictionary.new
+    d.add("fish")
+    d.add("fish")
+    d.words.should == ["fish"]
+  end
+
+  it "should report its contents when there are many" do 
+    d = Dictionary.new
+    d.add("fish")
+    d.add("foul")
+    d.add("freak")
+    d.add("foo")
+    d.words.sort.should == ["fish", "foul", "freak", "foo"].sort
   end
 
   it "should not include a word in an empty dictionary" do
@@ -27,6 +44,14 @@ describe Dictionary do
   it "should not find word in empty dictionary" do
     d = Dictionary.new
     d.find('fi').should == []
+  end
+
+  it "should find multiple matches from a prefix" do
+    d = Dictionary.new
+    d.add('fish')
+    d.add('fiend')
+    d.add('great')
+    d.find('').sort.should == ['fish', 'fiend', 'great'].sort
   end
 
   it "should find a word from a prefix" do
