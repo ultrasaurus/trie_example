@@ -27,6 +27,7 @@ How to use it:
 
 Alternate implementation Performance results:
 
+* [http://github.com/RyOnLife/trie_example](http://github.com/RyOnLife/trie_example)
 * [http://github.com/aihui/ruby_prof_test](http://github.com/aihui/ruby_prof_test)
 * [http://github.com/inkredabull/MyRubyClassAssignments/](http://github.com/inkredabull/MyRubyClassAssignments/)
   * [Data](http://github.com/inkredabull/MyRubyClassAssignments/blob/master/random.rb)
