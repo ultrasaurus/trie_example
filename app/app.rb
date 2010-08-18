@@ -1,11 +1,20 @@
 require 'rubygems'
 require 'sinatra'
-require '../trie_dictionary'
+require '../dictionary'
 require '../names'
+require 'json'
 
 $data = Dictionary.new
 $names.each do |name| 
   $data.add(name)
+end
+
+get '/test' do
+  erb :test
+end
+
+get '/foo' do
+  "hello"
 end
 
 get '/' do
@@ -25,4 +34,12 @@ get '/words' do
 
 end
 
+#get '/words.json' do
+#  puts "------------------ words"
+#  prefix = params[:q]
+#  prefix.capitalize!
+#  puts "------ #{prefix}"
+#  words = $data.find(prefix)
+#  words.to_json
+#end
 

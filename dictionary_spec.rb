@@ -1,4 +1,4 @@
-require 'dictionary'
+require 'trie_dictionary'
 
 describe Dictionary do
   it "should be empty when created" do

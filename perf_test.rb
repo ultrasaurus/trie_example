@@ -10,6 +10,7 @@ require 'names'
 require "set_dictionary"
 
 d = Dictionary.new
+puts "---------------------- #{$names.length}"
 $names.each do |name| 
   d.add(name)
 end
@@ -23,6 +24,6 @@ result = RubyProf.profile do
 end
 
 # Print a graph profile to text
-printer = RubyProf::FlatPrinter.new(result)
+printer = RubyProf::GraphPrinter.new(result)
 printer.print(STDOUT, 0)
 
