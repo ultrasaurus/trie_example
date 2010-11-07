@@ -7,7 +7,7 @@ require 'names'
 #file_name = "#{type}_dictionary"
 #puts "Performance test for: #{file_name}.rb"
 #require file_name
-require "set_dictionary"
+require "trie_dictionary"
 
 d = Dictionary.new
 puts "---------------------- #{$names.length}"
@@ -17,10 +17,16 @@ end
   
 # Profile the code
 result = RubyProf.profile do
-  ('a'..'z').each do |chr| 
+  begin
+  ('A'..'Z').each do |chr|
     d.find(chr)
   end
-  
+ # ('aaaa'..'zzzz').each do |chr| 
+ #   d.find(chr)
+ # end
+  rescue
+    puts "exception!"
+  end
 end
 
 # Print a graph profile to text

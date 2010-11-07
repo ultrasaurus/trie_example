@@ -1,76 +1,94 @@
-require 'trie_dictionary'
+require 'dictionary'
 
 describe Dictionary do
+  before do
+    @d = Dictionary.new
+  end
+
   it "should be empty when created" do
-    d = Dictionary.new
-    d.words.should == []
-  end
-
-  it "should report its contents" do 
-    d = Dictionary.new
-    d.add("fish")
-    puts d.words
-    d.add("foul")
-    d.words.sort.should == ["fish", "foul"].sort
-  end
-
-  it "should report only one of each entry" do 
-    d = Dictionary.new
-    d.add("fish")
-    d.add("fish")
-    d.words.should == ["fish"]
-  end
-
-  it "should report its contents when there are many" do 
-    d = Dictionary.new
-    d.add("fish")
-    d.add("foul")
-    d.add("freak")
-    d.add("foo")
-    d.words.sort.should == ["fish", "foul", "freak", "foo"].sort
+    @d.words.should == []
   end
 
   it "should not include a word in an empty dictionary" do
-    d = Dictionary.new
-    d.include?('fish').should be_false
+    @d.include?('fish').should be_false
   end
 
-  it "should be able to add words" do
-    d = Dictionary.new
-    d.add('fish')
-    d.include?('fish').should be_true
+  it "should not find a word in an empty dictionary" do
+    @d.find('fi').should == []
   end
 
-  it "should not find word in empty dictionary" do
-    d = Dictionary.new
-    d.find('fi').should == []
+  it "should be able to add a word and check for inclusion" do
+    @d.add('fish')
+    @d.include?('fish').should be_true
   end
 
-  it "should find multiple matches from a prefix" do
-    d = Dictionary.new
-    d.add('fish')
-    d.add('fiend')
-    d.add('great')
-    d.find('').sort.should == ['fish', 'fiend', 'great'].sort
+  it "should report its contents" do
+    @d.add("fish")
+    @d.add("foul")
+    @d.words.sort.should == ["fish", "foul"].sort
+  end
+
+  it "should report its contents even if one word is a substring of another" do
+    @d.add("cat")
+    @d.add("finger")
+    @d.add("fin")
+    @d.words.sort.should == ["cat", "fin", "finger"].sort
+  end
+
+  it "should be able to add words in any order" do
+    @d.add("fin")
+    @d.add("cat")
+    @d.add("finger")
+    @d.words.sort.should == ["cat", "fin", "finger"].sort
+  end
+
+  it "should not include a prefix that wasn't added as a word in and of
+itself" do
+    @d.add('fish')
+    @d.include?('fi').should be_false
+  end
+
+  it "should only consider non-empty strings as words" do
+    @d.add('').should be_false
+    @d.add(nil).should be_false
+    @d.add(3).should be_false
+    @d.add({}).should be_false
+  end
+
+  it "should find nothing if the prefix matches nothing" do
+    @d.add('fiend')
+    @d.add('great')
+    @d.find('nothing').should == []
   end
 
   it "should find a word from a prefix" do
-    d = Dictionary.new
-    d.add('fish')
-    d.add('fiend')
-    d.add('great')
-    d.find('gr').should == ['great']
+    @d.add('fish')
+    @d.add('fiend')
+    @d.add('great')
+    @d.find('gr').should == ['great']
   end
 
   it "should find multiple matches from a prefix" do
-    d = Dictionary.new
-    d.add('fish')
-    d.add('fiend')
-    d.add('great')
-    d.find('fi').sort.should == ['fish', 'fiend'].sort
+    @d.add('fish')
+    @d.add('fiend')
+    @d.add('great')
+    @d.find('fi').sort.should == ['fish', 'fiend'].sort
   end
 
+  it "should find correct matches and disregard partial matches" do
+    @d.add('fan')
+    @d.add('fish')
+    @d.add('fishy')
+    @d.add('fiend')
+    @d.add('great')
+    @d.find('fi').sort.should == ['fish', 'fishy', 'fiend'].sort
+  end
 
+  it "should find correct matches even if one word is a substring of another" do
+    @d.add('fishy')
+    @d.add('fish')
+    @d.find('fi').sort.should == ['fish', 'fishy'].sort
+  end
 
+end 
 
-end

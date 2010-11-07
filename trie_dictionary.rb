@@ -9,7 +9,7 @@ class Dictionary
     result = []
     #puts "words #{subtree.inspect} #{result.inspect} #{prefix}"
     return [] if @words.empty?
-    return [ prefix ] if subtree.empty? 
+    return [ prefix ] if subtree.nil? or subtree.empty? 
     subtree.each do |key, value|
       result += words(value, prefix + key)
     end
@@ -44,7 +44,7 @@ class Dictionary
     return words if orig_prefix.empty?
 
     first = prefix[0,1]
-    if prefix.empty?
+    if prefix.nil? or prefix.empty?
       return words(subtree, orig_prefix)
     else
       find(orig_prefix, subtree[first], prefix[1..-1])
